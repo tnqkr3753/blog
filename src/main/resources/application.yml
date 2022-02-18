@@ -4,12 +4,21 @@ spring:
       uri: mongodb://localhost:27017
       database: mongo_blog
   datasource:
+    # mysql
     url: jdbc:mariadb://127.0.0.1:3306/blog?characterEncoding=UTF-8&serverTimezone=UTC
     username: blog
     password: park9512
     driver-class-name: org.mariadb.jdbc.Driver
+    # h2
+    #driver-class-name: org.h2.Driver
+    #url: jdbc:h2:~/blog
+    #username: blog
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+  #h2:
+  #  console:
+  #    enabled: true
+  #    path: /h2
 

@@ -27,8 +27,8 @@ public class PostController {
         return new ResponseEntity<PostEntity>(postService.findById(id),HttpStatus.OK);
 
     }
-    @PostMapping(value = "")
-    public ResponseEntity<> post(){
-        return postService.
+    @PostMapping(value = "/{id}")
+    public ResponseEntity<PostEntity> post(@RequestBody PostEntity ent){
+        return new ResponseEntity<PostEntity>(postService.saveById(ent),HttpStatus.OK);
     }
 }

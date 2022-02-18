@@ -21,4 +21,8 @@ public class PostService {
     public PostEntity findById(String id){
         return postRepository.findById(id).orElse(new PostEntity());
     }
+
+    public PostEntity saveById(PostEntity ent) {
+        return postRepository.save(ent);
+    }
 }

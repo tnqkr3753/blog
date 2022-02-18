@@ -1,9 +1,6 @@
 package com.hadev.blog.user.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,16 +14,16 @@ import java.sql.Timestamp;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@ToString
 public class UserEntity {
     @Id
     private String userId;
-    @Column
     private String userEmail;
-    @Column
     private String userPassword;
-    @Column
+    private String name;
+    private int age;
+    private String address;
     private Timestamp registDate;
-    @Column
     private Timestamp modifyDate;
-
 }
