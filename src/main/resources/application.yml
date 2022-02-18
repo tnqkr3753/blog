@@ -1,0 +1,15 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017
+      database: mongo_blog
+  datasource:
+    url: jdbc:mariadb://127.0.0.1:3306/blog?characterEncoding=UTF-8&serverTimezone=UTC
+    username: blog
+    password: park9512
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
