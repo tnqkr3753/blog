@@ -1,12 +1,13 @@
 package com.hadev.blog.user.entity;
 
+import com.hadev.blog.work.entity.WorkEntity;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -15,7 +16,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
+@ToString(exclude = "works")
 public class UserEntity {
     @Id
     private String userId;
@@ -24,6 +25,15 @@ public class UserEntity {
     private String name;
     private int age;
     private String address;
+    @Column(nullable = false)
+    @CreationTimestamp
     private Timestamp registDate;
+    @Column(nullable = false)
+    @CreationTimestamp
     private Timestamp modifyDate;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "user")
+    private List<WorkEntity> works = new ArrayList<WorkEntity>();
+
 }
