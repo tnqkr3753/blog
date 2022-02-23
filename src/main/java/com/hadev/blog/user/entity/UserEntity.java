@@ -33,7 +33,11 @@ public class UserEntity {
     private Timestamp modifyDate;
 
     @Builder.Default
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<WorkEntity> works = new ArrayList<WorkEntity>();
 
+    public void addWork(WorkEntity workEntity){
+        this.works.add(workEntity);
+        workEntity.updateUser(this);
+    }
 }

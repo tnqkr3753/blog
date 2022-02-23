@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository("workRepository")
-public interface WorkRepository extends JpaRepository<WorkEntity, String> {
+public interface WorkRepository extends JpaRepository<WorkEntity, String>, WorkCustomRepository {
 
-    public List<WorkEntity> findAllByUser_UserId(String userId);
+    //public List<WorkEntity> findAllByUser_UserId(String userId);
+
+
 
 }

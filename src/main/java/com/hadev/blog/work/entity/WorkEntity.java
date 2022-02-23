@@ -26,8 +26,8 @@ public class WorkEntity {
     private String workType;
     @Column(nullable = false)
     private String workStatus;
-    @ManyToOne
-    @JoinColumn(name = "userId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId", foreignKey = @ForeignKey(name = "FK_USER_WORK"))
     private UserEntity user;
 
     private String projectId;
@@ -40,4 +40,8 @@ public class WorkEntity {
     @Column(nullable = false)
     @CreationTimestamp
     private Timestamp modifyDate;
+
+    public void updateUser(UserEntity userEntity){
+        this.user = userEntity;
+    }
 }

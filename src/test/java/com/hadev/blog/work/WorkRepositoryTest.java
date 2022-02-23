@@ -1,6 +1,7 @@
 package com.hadev.blog.work;
 
 
+import com.hadev.blog.config.QueryDslConfig;
 import com.hadev.blog.user.entity.UserEntity;
 import com.hadev.blog.user.repository.UserRepository;
 import com.hadev.blog.work.entity.WorkEntity;
@@ -12,7 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 
 import java.sql.Timestamp;
@@ -22,6 +25,8 @@ import java.util.List;
 @TestPropertySource("classpath:application.yml")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+//@ContextConfiguration(classes = {QueryDslConfig.class})
+@Import(QueryDslConfig.class)
 public class WorkRepositoryTest {
     private final Logger logger = LoggerFactory.getLogger(WorkRepositoryTest.class);
 
@@ -48,6 +53,7 @@ public class WorkRepositoryTest {
                 .name("윤태")
                 .build();
         userRepository.save(initUser);
+
         // Create Work
         initWork = WorkEntity.builder()
                 .workName("JPA Study")
@@ -82,7 +88,7 @@ public class WorkRepositoryTest {
     @Order(2)
     @DisplayName("유저 정보로 작업 조회")
     void TestC_selectWorkByUser(){
-        List<WorkEntity> workEntities = workRepository.findAllByUser_UserId(initUser.getUserId());
+        List<WorkEntity> workEntities = workRepository.findAllByUserId(initUser.getUserId());
         logger.info(workEntities.toString());
         Assertions.assertEquals(1, workEntities.get(0).getWorkId());
     }
@@ -95,11 +101,23 @@ public class WorkRepositoryTest {
 
         // when
         UserEntity userEntity = userRepository.findByUserId(initUser.getUserId()).orElseGet(UserEntity::new);
-        List<WorkEntity> workEntities = workRepository.findAllByUser_UserId(initUser.getUserId());
+        List<WorkEntity> workEntities = workRepository.findAllByUserId(initUser.getUserId());
 
         // then
-        Assertions.assertEquals(userEntity.getWorks(), workEntities);
+        //Assertions.assertEquals(userEntity.getWorks(), workEntities);
         // 여기서의 결론, workRepo의 영속성 객체와 userRepo의 user영속성객체 안의 work객체 다름
+    }
+
+    @Test
+    @Order(4)
+    @DisplayName("커스텀 레포 기간where절 테스트 ")
+    @Rollback(value = false)
+    void TestE_saveAndSelectAllUser(){
+        // given
+        //when
+        List<WorkEntity> workEntities = workRepository.findAllByPeriod();
+
+        Assertions.assertEquals(0,workEntities.size());
     }
 
 }
